@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Blackjack
+    </title>
+</head>
+<body>
+    <div class="playing-area">
+        <div class="using">
+    <h1>Blackjack</h1><br>
+    <h4 class="tag">Cards:</h4>
+
+    <div class="white" id="dealer-cards"></div>
+    <div class="white" id="player-cards"></div>
+    <form name="blackjack" onsubmit="newGame(); return false;">
+    <input type="submit" id="new-game-button" value="Deal"/>
+    <input type="button" id="hit-button" value="Hit" onclick="hit();" disabled/>
+    <input type="button" id="stand-button" value="Stand" onclick="stand();" disabled/>
+    Bet: 
+    <input type="number" id="bet" value="10" min="1" max="100"/>
+    <div class="balance" id="player-money"></div>
+   </form>
+    <h4 class="tag">Score:</h4>
+    <div class="white" id="player-score"></div>
+    <div class="white" id="dealer-score"></div>
+    <h2 class="white" id="message-board"></h2>
+</div>
+</div>
+    <script src="blackjackscript.js">
+    </script>
+</body>
+</html>
