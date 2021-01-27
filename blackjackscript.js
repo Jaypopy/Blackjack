@@ -1,6 +1,7 @@
 "use strict";
 
 var numCardsPulled = 0;
+var dealerNumCardsPulled = 0;
 
 var player = {
     cards: [],
@@ -38,6 +39,7 @@ var deck = {
 };
 
 document.getElementById("player-money").innerHTML = "Balance: $" + player.money;
+
 deck.initialize();
 deck.shuffle();
 
@@ -72,7 +74,6 @@ function bet(outcome) {
     if (outcome === "lose") {
         player.money -= playerBet;
     }
-    //Adding if player gets blackjack, dealer pays 3 to 2, If player gets 21 on the first 2 cards, 2.5x is won.
     if (outcome ==="blackjack") {
         player.money += playerBet * 1.5;
     }
@@ -80,6 +81,7 @@ function bet(outcome) {
 
 function resetGame() {
     numCardsPulled = 0;
+    dealerNumCardsPulled = 0;
     player.cards = [];
     dealer.cards = [];
     player.score = 0;
@@ -119,10 +121,20 @@ function endGame() {
         resetGame();
     }
     if (dealer.score === 21) {
-        document.getElementById("message-board").innerHTML = "You lost. Dealer got blackjack";
+        if (dealerNumCardsPulled == 2)
+        {
+            document.getElementById("message-board").innerHTML = "You lost. Dealer got blackjack";
+            bet("lose");
+            document.getElementById("player-money").innerHTML = "Your money: $" + player.money;
+            resetGame();
+        }
+      else
+      {
+        document.getElementById("message-board").innerHTML = "You lost. Dealer got 21.";
         bet("lose");
         document.getElementById("player-money").innerHTML = "Your money: $" + player.money;
         resetGame();
+      }
     }
     if (dealer.score > 21) {
         document.getElementById("message-board").innerHTML = "Dealer went over 21! You win!";
@@ -160,6 +172,8 @@ function dealerDraw() {
     document.getElementById("dealer-cards").innerHTML = "Dealer Cards: " + JSON.stringify(dealer.cards);
     document.getElementById("dealer-score").innerHTML = "Dealer Score: " + dealer.score;
     numCardsPulled += 1;
+    dealerNumCardsPulled += 1;
+    document.getElementById("dealer-draw").innerHTML = "Dealer has drawn: " + dealerNumCardsPulled;
 }
 
 function newGame() {
