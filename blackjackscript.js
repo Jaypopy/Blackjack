@@ -95,10 +95,10 @@ function resetGame() {
     document.getElementById("new-game-button").disabled = false;
 }
 
-function endGame() {
+function gameOver() {
     if(player.score === 21 && numCardsPulled == 3)
     {
-        document.getElementById("message-board").innerHTML = "You win! You got blackjack.";
+        document.getElementById("text-message").innerHTML = "You win! You got blackjack.";
         bet("blackjack");
         document.getElementById("player-money").innerHTML = "Your money: $" + player.money * 1.5;
         resetGame();
@@ -107,7 +107,7 @@ function endGame() {
     if (player.score === 21) {
         if (dealer.score > 21)
         {
-            document.getElementById("message-board").innerHTML = "You win!";
+            document.getElementById("text-message").innerHTML = "You win!";
             bet("win");
             document.getElementById("player-money").innerHTML = "Your money: $" + player.money;
             resetGame();
@@ -115,7 +115,7 @@ function endGame() {
     }
 
     if (player.score > 21) {
-        document.getElementById("message-board").innerHTML = "You went over 21! The dealer wins";
+        document.getElementById("text-message").innerHTML = "You went over 21! The dealer wins";
         bet("lose");
         document.getElementById("player-money").innerHTML = "Your money: $" + player.money;
         resetGame();
@@ -123,46 +123,51 @@ function endGame() {
     if (dealer.score === 21) {
         if (dealerNumCardsPulled == 2)
         {
-            document.getElementById("message-board").innerHTML = "You lost. Dealer got blackjack";
+            document.getElementById("text-message").innerHTML = "You lost. Dealer got blackjack";
             bet("lose");
             document.getElementById("player-money").innerHTML = "Your money: $" + player.money;
             resetGame();
         }
+      else if (player.score == dealer.score)
+      {
+        document.getElementById("text-message").innerHTML = "You pushed. Both of you got 21.";
+        resetGame();
+      }
       else
       {
-        document.getElementById("message-board").innerHTML = "You lost. Dealer got 21.";
+        document.getElementById("text-message").innerHTML = "You lost. Dealer got 21.";
         bet("lose");
         document.getElementById("player-money").innerHTML = "Your money: $" + player.money;
         resetGame();
       }
     }
     if (dealer.score > 21) {
-        document.getElementById("message-board").innerHTML = "Dealer went over 21! You win!";
+        document.getElementById("text-message").innerHTML = "Dealer went over 21! You win!";
         bet("win");
         document.getElementById("player-money").innerHTML = "Your money: $" + player.money;
         resetGame();
     }
     if (dealer.score >= 17 && player.score > dealer.score && player.score <= 21) {
-        document.getElementById("message-board").innerHTML = "You win! You beat the dealer.";
+        document.getElementById("text-message").innerHTML = "You win! You beat the dealer.";
         bet("win");
         document.getElementById("player-money").innerHTML = "Your money: $" + player.money;
         resetGame();
     }
     if (dealer.score >= 17 && player.score < dealer.score && dealer.score < 21) {
-        document.getElementById("message-board").innerHTML = "You lost. Dealer had the higher score.";
+        document.getElementById("text-message").innerHTML = "You lost. Dealer had the higher score.";
         bet("lose");
         document.getElementById("player-money").innerHTML = "Your money: $" + player.money;
         resetGame();
     }
     if (dealer.score >= 17 && player.score === dealer.score && dealer.score < 21) {
-        document.getElementById("message-board").innerHTML = "You tied! ";
+        document.getElementById("text-message").innerHTML = "You pushed! ";
         resetGame();
     }
     if (player.money <= 0) {
         document.getElementById("new-game-button").disabled = true;
         document.getElementById("hit-button").disabled = true;
         document.getElementById("stand-button").disabled = true;
-        document.getElementById("message-board").innerHTML = "You lost!" + "<br>" + "You are out of money" + "<br>" + "<input type='button' value='New Game' onclick='location.reload();'/>";
+        document.getElementById("text-message").innerHTML = "You lost!" + "<br>" + "You are out of money" + "<br>" + "<input type='button' value='New Game' onclick='location.reload();'/>";
     }
 }
 
@@ -181,11 +186,11 @@ function newGame() {
     document.getElementById("hit-button").disabled = false;
     document.getElementById("stand-button").disabled = false;
     document.getElementById("bet").disabled = true;
-    document.getElementById("message-board").innerHTML = "";
+    document.getElementById("text-message").innerHTML = "";
     hit();
     hit();
     dealerDraw();
-    endGame();
+    gameOver();
 }
 
 function hit() {
@@ -195,7 +200,7 @@ function hit() {
     document.getElementById("player-score").innerHTML = "Player Score: " + player.score;
     numCardsPulled += 1;
     if (numCardsPulled >= 2) {
-        endGame();
+        gameOver();
     }
 }
 
@@ -203,5 +208,5 @@ function stand() {
     while (dealer.score < 17) {
         dealerDraw();
     }
-    endGame();
+    gameOver();
 }
