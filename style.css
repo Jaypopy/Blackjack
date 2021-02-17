@@ -46,3 +46,14 @@ align-items: center;
 .white{
 color:white;
 }
+
+.cardpicture{
+    height: auto;
+    width: auto;
+    max-width: 100px;
+}
+
+.card-table{
+    display: flex;
+    justify-content: space-evenly;
+}
